@@ -19,9 +19,9 @@ var app = {
         // Loop over results array
         _.each(data.results, function(message) {
           // Create a node for each object
-          var container = $("<div class='message'></div>");
-          var user = $("<span></span>").text(message.username);
-          var text = $("<p></p>").text(message.text);
+          var container = $("<div class='chat'></div>");
+          var user = $("<span class='username'></span>").text(message.username);
+          var text = $("<p class='text'></p>").text(message.text);
 
           container.append(user);
           container.append(text);
