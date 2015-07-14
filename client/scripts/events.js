@@ -1,7 +1,12 @@
 $('#submit').on('click', function(e){
-  console.log("clicked!");
+  
+  var username = window.location.search.match(/(=)\w+/)[0].split("");
+  username.shift();
+  username = username.join("");
+
+
   var message = {
-    username: "kamlex",
+    username: username,
     text: $('#input').val()
   }
 
@@ -9,3 +14,4 @@ $('#submit').on('click', function(e){
 
 });
 
+ 
