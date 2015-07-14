@@ -14,4 +14,8 @@ $('#submit').on('click', function(e){
 
 });
 
+$('#rooms').change(function(){
+  app.getRoom($('#rooms option:selected').val());
+});
+
  

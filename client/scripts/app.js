@@ -43,7 +43,7 @@ var app = {
           container.append(text);
 
           // Append the node to the #main element
-          $("#main").append(container);
+          $("#chatContainer").append(container);
         })
         console.log(data);
       },
@@ -54,10 +54,10 @@ var app = {
     });
   },
   getRoom: function(roomname) {
+    $('#chatContainer').html("");
     this.fetch("where=" + JSON.stringify({roomname:roomname}));
   },
   pullDown: function() {
-
     $.ajax({
       url: this.server,
       type: 'GET',
