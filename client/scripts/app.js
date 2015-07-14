@@ -3,7 +3,9 @@
 var app = {
   server: 'https://api.parse.com/1/classes/chatterbox',
   init: function() {
-    this.fetch({order:"-updatedAt"});
+    //this.fetch({order:"-updatedAt"});
+    this.getRoom("4chan");
+    this.pullDown();
   },
   send: function(message) {
     $.ajax({
@@ -21,7 +23,8 @@ var app = {
       }
     });
   },
-  fetch: function(message) {
+  // If a room is specified, 
+  fetch: function(message, room) {
     $.ajax({
       // This is the url you should use to communicate with the parse API server.
       url: this.server,
@@ -49,7 +52,38 @@ var app = {
         console.error('chatterbox: Failed to send message');
       }
     });
-  }
+  },
+  getRoom: function(roomname) {
+    this.fetch("where=" + JSON.stringify({roomname:roomname}));
+  },
+  pullDown: function() {
+
+    $.ajax({
+      url: this.server,
+      type: 'GET',
+      data: {keys:"roomname"},
+      contentType: 'application/json',
+      success: function(data) {
+        // Create an object that holds unique roomnames
+        var roomObj = {};
+        _.each(data.results, function(rooms) {
+            roomObj[rooms.roomname] = true;
+        });
+        //Iterate over object
+        _.each(roomObj, function(item, roomname) {
+          //Create select nodes with unique roomname
+          var option = $("<option></option>").text(roomname);
+          $("#rooms").append(option);
+        });
+      },
+      error: function(data) {
+
+      }
+    })
+
+    // Create the initial append to options
+
+  },
 }
 
 app.init();
