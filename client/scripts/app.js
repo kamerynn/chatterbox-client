@@ -2,6 +2,7 @@
 
 var app = {
   server: 'https://api.parse.com/1/classes/chatterbox',
+  friends: [],
   init: function() {
     //this.fetch({order:"-updatedAt"});
     this.getRoom("4chan");
@@ -79,17 +80,31 @@ var app = {
   addMessage: function(message) {
     // Create a node for each object
     var container = $("<div class='chat'></div>");
+    // If username is in our friends list
+      // bold the text
     var user = $("<span class='username'></span>").text(message.username);
     var text = $("<p class='text'></p>").text(message.text);
+
+    $(user).click(function(e) {
+      // Adds the targer username to the friends property of app (it can be an array)
+      var username = $(this)[0].innerHTML;
+      app.friends.push(username);
+      app.fetch("where=" + JSON.stringify({username:username}));
+    });
 
     container.append(user);
     container.append(text);
 
     // Append the node to the #main element
     $("#chats").append(container);
+
+    if(_.indexOf(app.friends, message.username) !== -1){
+      // element.css("font-weight", "bold")
+      text.css("font-weight", "bold");
+    }
   },
   addRoom: function(room) {
-    
+
   }
 }
 
