@@ -15,6 +15,7 @@ var app = {
       data: JSON.stringify(message),
       contentType: 'application/json',
       success: function (data) {
+        app.getRoom(message.roomname);
         console.log('chatterbox: Message sent');
       },
       error: function (data) {
@@ -34,16 +35,7 @@ var app = {
       success: function (data) {
         // Loop over results array
         _.each(data.results, function(message) {
-          // Create a node for each object
-          var container = $("<div class='chat'></div>");
-          var user = $("<span class='username'></span>").text(message.username);
-          var text = $("<p class='text'></p>").text(message.text);
-
-          container.append(user);
-          container.append(text);
-
-          // Append the node to the #main element
-          $("#chatContainer").append(container);
+          app.addMessage(message);
         })
         console.log(data);
       },
@@ -54,7 +46,7 @@ var app = {
     });
   },
   getRoom: function(roomname) {
-    $('#chatContainer').html("");
+    this.clearMessages();
     this.fetch("where=" + JSON.stringify({roomname:roomname}));
   },
   pullDown: function() {
@@ -80,10 +72,25 @@ var app = {
 
       }
     })
-
-    // Create the initial append to options
-
   },
+  clearMessages: function() {
+    $('#chats').html("");
+  },
+  addMessage: function(message) {
+    // Create a node for each object
+    var container = $("<div class='chat'></div>");
+    var user = $("<span class='username'></span>").text(message.username);
+    var text = $("<p class='text'></p>").text(message.text);
+
+    container.append(user);
+    container.append(text);
+
+    // Append the node to the #main element
+    $("#chats").append(container);
+  },
+  addRoom: function(room) {
+    
+  }
 }
 
 app.init();
