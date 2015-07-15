@@ -89,7 +89,6 @@ var app = {
       // Adds the targer username to the friends property of app (it can be an array)
       var username = $(this)[0].innerHTML;
       app.friends.push(username);
-      app.fetch("where=" + JSON.stringify({username:username}));
     });
 
     container.append(user);
